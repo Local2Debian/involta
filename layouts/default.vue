@@ -6,9 +6,9 @@
           <h1 class="md:text-3xl text-2xl whitespace-nowrap font-semibold">
             Список новостей
           </h1>
-          <!--Refresh-->
+          <RefreshButton/>
         </div>
-        <!--Search-->
+        <SearchInput/>
       </div>
       <div id="delimiter" class="bg-slate-200 w-full h-px md:mt-9"></div>
       <div id="main" class="flex flex-col">
@@ -21,4 +21,10 @@
 </template>
 
 <script>
+import RefreshButton from '~/components/RefreshButton.vue';
+import SearchInput from '~/components/SearchInput.vue';
+
+export default {
+    components: { RefreshButton, SearchInput }
+}
 </script>
