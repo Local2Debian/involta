@@ -16,8 +16,8 @@
 
       try {
         let [mosFeeds, lentaFeeds] = await Promise.all([
-          parser.parseURL('https://www.mos.ru/rss'),//.then(async response => await parser.parseString(await response.text())),
-          parser.parseURL('https://lenta.ru/rss/news')//.then(async response => await parser.parseString(await response.text()))
+          parser.parseURL('http://localhost:3000/proxy/mos'),
+          parser.parseURL('http://localhost:3000/proxy/lenta')
         ]);
 
         const feeds = [...mosFeeds.items, ...lentaFeeds.items]
