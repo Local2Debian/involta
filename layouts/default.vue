@@ -12,9 +12,7 @@
       </div>
       <div id="delimiter" class="bg-slate-200 w-full h-px md:mt-9"></div>
       <div id="main" class="flex flex-col">
-        <client-only>
-          <Nuxt/>
-        </client-only>
+        <Nuxt/>
       </div>
     </div>
   </div>
@@ -25,6 +23,8 @@ import RefreshButton from '~/components/RefreshButton.vue';
 import SearchInput from '~/components/SearchInput.vue';
 
 export default {
-    components: { RefreshButton, SearchInput }
+
+  middleware:[ "validate-route", "parse"],
+  components: { RefreshButton, SearchInput }
 }
 </script>
