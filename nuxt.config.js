@@ -41,7 +41,8 @@ export default {
 
   serverMiddleware: [
     { path: '/proxy/mos', handler: '~/middleware/proxy/mos.js' },
-    { path: '/proxy/lenta', handler: '~/middleware/proxy/lenta.js' }
+    { path: '/proxy/lenta', handler: '~/middleware/proxy/lenta.js' },
+    { path: '/api', handler: '~/server/api.js' }
   ],
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
