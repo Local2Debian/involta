@@ -16,8 +16,7 @@
       </div>
     </div>
     <div id="news">
-        <h1>{{ $route.params.news }}</h1>
-        <h1>{{ $route.params.page }}</h1>
+      <DataView :viewType="getViewType"/>
     </div>
     <div id="pagination">
 
@@ -26,36 +25,49 @@
 </template>
 
 <script>
+import DataView from '~/components/DataView.vue';
 import ListIcon from '~/components/icons/ListIcon.vue';
 import TableIcon from '~/components/icons/TableIcon.vue';
+import { mapState } from 'vuex'
 
 export default {
-    data() {
-        return {
-            viewTypeToggle: true,
-        };
-    },
-    middleware: "validate-route",
+  data() {
+    return {
+      viewTypeToggle: true,
+    };
+  },
 
-    methods: {
-      toggleView(targetId) {
-        if(targetId == 'list') this.viewTypeToggle = true;
-        if(targetId == 'table') this.viewTypeToggle = false;
+  methods: {
+    toggleView(targetId) {
+      if(targetId == 'list') this.viewTypeToggle = true;
+      if(targetId == 'table') this.viewTypeToggle = false;
 
-        window.localStorage.setItem('viewType', `${this.viewTypeToggle}`)
-      }
-    },
+      window.localStorage.setItem('viewType', `${this.viewTypeToggle}`)
+    }
+  },
 
-    mounted() {
-      const viewType = window.localStorage.getItem('viewType')
-      if(viewType){
-        this.viewTypeToggle = viewType === 'true' ? true : false
-      } else {
-        window.localStorage.setItem('viewType', `${this.viewTypeToggle}`)
-      }
+  computed: {
+    getViewType() {
+      return this.viewTypeToggle
     },
 
-    components: { ListIcon, TableIcon }
+    ...mapState(['feeds'])
+  },
+
+  // async asyncData({ $axios }) {
+  //   await $axios.get('http://localhost:3000/parse')
+  // },
+
+  mounted() {
+    const viewType = window.localStorage.getItem('viewType')
+    if(viewType){
+      this.viewTypeToggle = viewType === 'true' ? true : false
+    } else {
+      window.localStorage.setItem('viewType', `${this.viewTypeToggle}`)
+    }
+  },
+
+  components: { ListIcon, TableIcon, DataView }
 }
 </script>
 
