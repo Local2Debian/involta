@@ -7,10 +7,10 @@
         <nuxt-link :class="['text-sm', 'font-bold', {'text-[#0029FF]': $nuxt.$route.params.news != 'lenta'}]" to="/lenta/1">Lenta.ru</nuxt-link>
       </div>
       <div id="type-view" class="flex flex-row grow justify-end gap-x-2.5">
-        <div id="list" @click="() => viewTypeToggle = true">
+        <div id="list" @click.capture="toggleView($event.currentTarget.id)">
           <ListIcon :class="['fill-[#C4C4C4]', {'fill-blue': viewTypeToggle}]"/>
         </div>
-        <div id="table" @click="() => viewTypeToggle = false">
+        <div id="table" @click="toggleView($event.currentTarget.id)">
           <TableIcon :class="['fill-[#C4C4C4]', {'fill-blue': !viewTypeToggle}]"/>
         </div>
       </div>
@@ -36,9 +36,25 @@ export default {
         };
     },
     middleware: "validate-route",
-    mounted() {
-        console.log(this.$route.params);
+
+    methods: {
+      toggleView(targetId) {
+        if(targetId == 'list') this.viewTypeToggle = true;
+        if(targetId == 'table') this.viewTypeToggle = false;
+
+        window.localStorage.setItem('viewType', `${this.viewTypeToggle}`)
+      }
     },
+
+    mounted() {
+      const viewType = window.localStorage.getItem('viewType')
+      if(viewType){
+        this.viewTypeToggle = viewType === 'true' ? true : false
+      } else {
+        window.localStorage.setItem('viewType', `${this.viewTypeToggle}`)
+      }
+    },
+
     components: { ListIcon, TableIcon }
 }
 </script>
