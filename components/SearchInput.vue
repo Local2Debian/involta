@@ -1,6 +1,6 @@
 <template>
-  <div id="search" class="flex items-center h-10 py-2.5 pr-2.5 pl-0.5 rounded shadow shadow-black-[0.05] bg-white">
-    <input class="w-full border-none outline-none p-0.5 mr-2.5"
+  <div id="search-input">
+    <input
       type="text"
       v-model="searchStr" />
     <nuxt-link :to="{
@@ -24,3 +24,14 @@ export default {
   components: { SearchIcon }
 }
 </script>
+
+<style lang="postcss" scoped>
+#search-input{
+ @apply flex items-center h-10 py-2.5 pr-2.5 pl-0.5 rounded shadow bg-white;
+ @layer shadow-black-0.05;
+
+ input{
+  @apply w-full border-none outline-none p-0.5 mr-2.5;
+ }
+}
+</style>

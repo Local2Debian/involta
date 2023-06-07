@@ -1,7 +1,6 @@
 <template>
   <nuxt-link
     id="refresh"
-    class="flex items-center justify-center p-2.5 rounded-full shadow shadow-black-[0.05] bg-white"
     to="/all/1">
     <RefreshIcon/>
   </nuxt-link>
@@ -14,3 +13,10 @@ export default {
   components: { RefreshIcon }
 }
 </script>
+
+<style lang="postcss" scoped>
+a{
+  @apply flex items-center justify-center p-2.5 rounded-full shadow bg-white;
+  @layer shadow-black-0.05;
+}
+</style>
