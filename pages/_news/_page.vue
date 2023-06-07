@@ -1,17 +1,17 @@
 <template>
-  <div id="container-rss" class="flex flex-col">
-    <div id="filter" class="flex fustify-between my-6">
-      <div id="nav" class="flex gap-x-4">
-        <nuxt-link :class="['text-sm', 'font-bold', {'text-[#0029FF]': $nuxt.$route.params.news != 'all'}]" to="/all/1">Все</nuxt-link>
-        <nuxt-link :class="['text-sm', 'font-bold', {'text-[#0029FF]': $nuxt.$route.params.news != 'mos'}]" to="/mos/1">Mos.ru</nuxt-link>
-        <nuxt-link :class="['text-sm', 'font-bold', {'text-[#0029FF]': $nuxt.$route.params.news != 'lenta'}]" to="/lenta/1">Lenta.ru</nuxt-link>
+  <div id="container-rss">
+    <div id="filter">
+      <div id="nav">
+        <nuxt-link to="/all/1">Все</nuxt-link>
+        <nuxt-link to="/mos/1">Mos.ru</nuxt-link>
+        <nuxt-link to="/lenta/1">Lenta.ru</nuxt-link>
       </div>
-      <div id="type-view" class="flex flex-row grow justify-end gap-x-2.5">
+      <div id="type-view">
         <div id="list" @click.capture="toggleView($event.currentTarget.id)">
-          <ListIcon :class="['fill-[#C4C4C4]', {'fill-blue': viewTypeToggle}]"/>
+          <ListIcon :class="['icon', {'active': viewTypeToggle}]"/>
         </div>
         <div id="table" @click="toggleView($event.currentTarget.id)">
-          <TableIcon :class="['fill-[#C4C4C4]', {'fill-blue': !viewTypeToggle}]"/>
+          <TableIcon :class="['icon', {'active': !viewTypeToggle}]"/>
         </div>
       </div>
     </div>
@@ -54,11 +54,11 @@ export default {
     ...mapState(['feeds'])
   },
 
-  // async asyncData({ $axios }) {
-  //   await $axios.get('http://localhost:3000/parse')
-  // },
+  async asyncData({ store  }) {
+    await store.dispatch('feeds/loadFeeds')
+  },
 
-  mounted() {
+  beforeMount() {
     const viewType = window.localStorage.getItem('viewType')
     if(viewType){
       this.viewTypeToggle = viewType === 'true' ? true : false
@@ -68,12 +68,51 @@ export default {
   },
 
   components: { ListIcon, TableIcon, DataView }
+  //.fill-blue {
+//  fill: #0029FF !important;
+//}
 }
 </script>
 
 
-<style scoped>
-.fill-blue {
-  fill: #0029FF !important;
+<style lang="postcss" scoped>
+#container-rss{
+  @apply flex;
+  @apply flex-col;
+
+  #filter{
+    @apply flex;
+    @apply my-6;
+    @layer fustify-between;
+
+    #nav{
+      @apply flex;
+      @apply gap-x-4;
+
+      a{
+        @apply text-sm;
+        @apply font-bold;
+        @apply text-[#0029FF];
+      }
+
+      a.nuxt-link-exact-active{
+        @apply text-black;
+      }
+    }
+
+    #type-view{
+      @apply flex;
+      @layer flex-row;
+      @apply grow;
+      @apply justify-end;
+      @apply gap-x-2.5;
+      .icon{
+        @apply fill-[#C4C4C4];
+      }
+      .icon.active{
+        @apply fill-[#0029FF] !important;
+      }
+    }
+  }
 }
 </style>
