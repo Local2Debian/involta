@@ -14,15 +14,15 @@ $ npm install -g pm2
 
 $ docker-compose run
 
+# run pm2 daemon
+$ pm2 start ./daemon.config.js
+
 # start the app
 # dev start 
 $ npm run dev
 # deploy
 $ npm run bild
 $ npm run start
-
-# run pm2 daemon
-$ pm2 start ./daemon.config.js
 ```
 
 ## Config .env
