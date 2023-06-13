@@ -1,20 +1,30 @@
 # involta
 
-## Build Setup
+## Run App
 
 ```bash
 # install dependencies
 $ npm install
 
-# serve with hot reload at localhost:3000
+# install pm2
+
+$ npm install -g pm2
+
+# start redis in Docker
+
+$ docker-compose run
+
+# start the app
+# dev start 
+
 $ npm run dev
+# deploy
 
-# build for production and launch server
-$ npm run build
-$ npm run start
+$ npm run bild
 
-# generate static project
-$ npm run generate
+$npm run start
+
+
 ```
 
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
