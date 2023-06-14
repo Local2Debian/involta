@@ -1,7 +1,7 @@
 
 <template>
   <div class="grid-view">
-    <div class="item" v-for="feed in feeds">
+    <div v-show="feeds.length" class="item" v-for="feed in feeds">
       <h1 class="title">{{ feed.title }}</h1>
       <div class="body">
         <h2 class="description">{{ feed.description || feed.content }}</h2>
@@ -31,7 +31,8 @@ export default {
     @apply grid grid-cols-2;
   }
   .item{
-    @apply flex flex-col box-border content-between pt-8 px-8 pb-5 shadow;
+    @apply flex flex-col box-border justify-between pt-8 px-8 pb-5 shadow;
+    min-height: 256px;
     @layer shadow-black-0.05;
     .title{
       @apply mb-5 grow line-clamp-2 text-[#0029FF] text-lg font-bold;
