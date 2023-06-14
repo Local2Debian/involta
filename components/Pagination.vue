@@ -40,7 +40,7 @@ export default {
 
     pages() {
       const pages = []
-      const currentPage = this.$route.params.page
+      const currentPage = Number(this.$route.params.page)
       for (let index = 1; index <= this.pagesCount; index++) {
         pages.push({
           route: {
@@ -51,8 +51,6 @@ export default {
           index
         })
       }
-
-      console.log(currentPage - this.pagesCount - 2);
 
       return pages.slice(currentPage - this.pagesCount - 2, currentPage + 2)
     },
