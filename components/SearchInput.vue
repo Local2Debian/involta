@@ -22,8 +22,8 @@ export default {
   },
 
   watch: {
-    '$route.query.search': function(newVal) {
-      this.searchStr = newVal || '';
+    '$route.query.search': function(value) {
+      this.searchStr = value || '';
     }
   },
 
@@ -34,7 +34,7 @@ export default {
         this.$router.push({
           name: 'news-page',
           params: {news: this.$route.params.news, page: 1},
-          query: { search: this.searchStr }
+          query: this.searchStr ? { search: this.searchStr } : {}
         });
       }, 500);
     }
