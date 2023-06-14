@@ -4,7 +4,7 @@
       type="text"
       v-model="searchStr"
       @input="handleInput" />
-    <nuxt-link to="">
+    <nuxt-link to="#">
       <SearchIcon />
     </nuxt-link>
   </div>
@@ -16,14 +16,14 @@ import SearchIcon from './icons/SearchIcon.vue';
 export default {
   data() {
     return {
-      searchStr: this.$route.query.search ?? "",
+      searchStr: this.$route.query.search || '',
       timeoutId: null
     };
   },
 
-  computed: {
-    getSearchQuery() {
-      return this.searchStr
+  watch: {
+    '$route.query.search': function(newVal) {
+      this.searchStr = newVal || '';
     }
   },
 
@@ -31,12 +31,12 @@ export default {
     handleInput() {
       clearTimeout(this.timeoutId);
       this.timeoutId = setTimeout(() => {
-      this.$router.push({
-        name: 'news-page',
-        params: {news: this.$route.params.news, page: 1},
-        query: { search: this.getSearchQuery }
-      });
-    }, 500);
+        this.$router.push({
+          name: 'news-page',
+          params: {news: this.$route.params.news, page: 1},
+          query: { search: this.searchStr }
+        });
+      }, 500);
     }
   },
 
