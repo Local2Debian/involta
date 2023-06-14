@@ -1,18 +1,26 @@
 
 <template>
-  <div id="pagination">
+  <div class="pagination">
     <nuxt-link v-show="prevActive"
       :to="{
         name: 'news-page',
-        params: {news: $route.params.news, page: Number($route.params.page) - 1},
+        params: {news: $route.params.news, page: 1},
         query: $route.query
-      }">Предыдущая</nuxt-link>
+      }">1</nuxt-link>
+    <span v-show="prevActive" class="delimiter">...</span>
+    <nuxt-link
+      v-for="page in pages" :key="page.index"
+      :to="page.route"
+      :class="{'active': $route.params.page == page.index}">
+      {{ page.index }}
+    </nuxt-link>
+    <span v-show="nextActive" class="delimiter">...</span>
     <nuxt-link v-show="nextActive"
       :to="{
         name: 'news-page',
-        params: {news: $route.params.news, page: Number($route.params.page) + 1},
+        params: {news: $route.params.news, page: pagesCount},
         query: $route.query
-      }">Следующая</nuxt-link>
+      }">{{pagesCount}}</nuxt-link>
   </div>
 </template>
 
@@ -23,23 +31,49 @@ export default {
     ...mapState('feedStore', ['totalCount', 'viewType']),
 
     nextActive(){
-      return Number(this.$route.params.page) < (this.viewType ? Math.ceil(this.totalCount / 3) : Math.ceil(this.totalCount / 4))
+      return Number(this.$route.params.page) + 2 < (this.viewType ? Math.ceil(this.totalCount / 3) : Math.ceil(this.totalCount / 4))
+    },
+
+    pagesCount() {
+      return this.viewType ? Math.ceil(this.totalCount / 3) : Math.ceil(this.totalCount / 4)
+    },
+
+    pages() {
+      const pages = []
+      const currentPage = this.$route.params.page
+      for (let index = 1; index <= this.pagesCount; index++) {
+        pages.push({
+          route: {
+            name: 'news-page',
+            params: {news: this.$route.params.news, page: index},
+            query: this.$route.query
+          },
+          index
+        })
+      }
+
+      console.log(currentPage - this.pagesCount - 2);
+
+      return pages.slice(currentPage - this.pagesCount - 2, currentPage + 2)
     },
 
     prevActive(){
-      return Number(this.$route.params.page) !== 1
+      return Number(this.$route.params.page) - 1 > 1
     }
-    // pages() {
-    //   let pages = []
-    //   for (let index = 1; index < this.viewType ? Math.ceil(this.totalCount / 3) : Math.ceil(this.totalCount / 4); index++) {
-    //     pages.push({
-    //       name: 'news-page',
-    //       params: this.$route.params,
-    //       query: this.$route.query,
-    //       content: index
-    //     })
-    //   }
-    // }
   },
 }
 </script>
+
+
+<style lang="postcss" scoped>
+.pagination{
+  @apply flex justify-around space-x-5;
+  a, span{
+    @apply font-bold text-lg;
+  }
+
+  a.active{
+    @apply text-[#0029FF]
+  }
+}
+</style>
