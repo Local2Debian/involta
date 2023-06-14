@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     id="refresh"
-    :to="{ name: 'news-page', params: { news: 'all', page: 1 }, query: {search: ''}}">
+    :to="{ name: 'news-page', params: { news: 'all', page: 1 }, query: {}}">
     <RefreshIcon/>
   </nuxt-link>
 </template>
