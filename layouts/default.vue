@@ -12,11 +12,29 @@
       <div class="filter">
         <div class="nav">
           <nuxt-link
-            :to="{ name: 'news-page', params: { news: 'all', page: 1 }, query: $route.query}">Все</nuxt-link>
+            :to="{
+              name: 'news-page',
+              params: {
+                news: 'all',
+                page: 1
+              },
+              query: $route.query
+            }"
+            :class="{'active': $route.params.news === 'all'}">
+            Все
+          </nuxt-link>
           <nuxt-link
             v-for="link in nav"
             :key="link.domain"
-            :to="{ name: 'news-page', params: { news: link.href, page: 1 }, query: $route.query}">
+            :to="{
+              name: 'news-page',
+              params: {
+                news: link.href,
+                page: 1
+              },
+              query: $route.query
+            }"
+            :class="{'active': $route.params.news === link.href}">
             {{ link.content }}
           </nuxt-link>
         </div>
@@ -33,9 +51,7 @@
         <Nuxt/>
       </div>
       <div class="footer flex justify-center py-9">
-        <div class="pagination">
-          <Pagination/>
-        </div>
+        <Pagination/>
       </div>
     </div>
   </div>
@@ -68,8 +84,8 @@ export default {
   middleware:[ "validate-route"],
 
   methods: {
-    ...mapMutations('feedStore', ['setViewType']),
     ...mapActions('feedStore', ['loadFeeds']),
+    ...mapMutations('feedStore', ['setViewType']),
 
     toggleView(targetId) {
       if(targetId == 'list') this.setViewType(true);
@@ -78,16 +94,23 @@ export default {
     },
   },
 
+  watch: {
+    viewType: {
+      immediate: true,
+      handler: async function() {
+        await this.loadFeeds({...this.$route.params, ...this.$route.query})
+      }
+    },
+    '$route.query.search': {
+      immediate: true,
+      handler: async function() {
+        await this.loadFeeds({...this.$route.params, ...this.$route.query})
+      }
+    }
+  },
+
   computed: {
     ...mapState('feedStore', ['viewType']),
-  },
-
-  async asyncData({ store, params, route }) {
-    await store.dispatch('feedStore/loadFeeds', {...params, ...route.query})
-  },
-
-  async beforeUpdate() {
-    await this.loadFeeds({...this.$route.params, ...this.$route.query})
   },
 
   mounted(){
@@ -156,7 +179,7 @@ export default {
           @apply text-[#0029FF];
         }
 
-        a.nuxt-link-exact-active{
+        a.active{
           @apply text-black;
         }
       }
